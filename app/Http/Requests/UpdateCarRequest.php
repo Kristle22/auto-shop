@@ -25,7 +25,16 @@ class UpdateCarRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'car_name' => ['required', 'min:3', 'max:255'],
+            'car_plate' => ['required', 'min:3', 'max:10'],
+            'car_about' => ['required'],
+            'maker_id' => ['required', 'integer', 'min:1']
+        ];
+    }
+
+    public function messages() {
+        return [
+            'car_name.min' => 'Automobilio pavadinime turi buti nuo 3 iki 255 simboliu'
         ];
     }
 }

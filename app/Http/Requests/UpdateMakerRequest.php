@@ -25,7 +25,13 @@ class UpdateMakerRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'maker_name' => ['required', 'min:3', 'max:64'],
+        ];
+    }
+
+    public function messages() {
+        return [
+            'maker_name.required' => 'Gamintojo pavadinime turetu buti nuo 3 iki 64 simboliu'
         ];
     }
 }
