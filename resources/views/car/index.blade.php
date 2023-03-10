@@ -13,7 +13,7 @@
                                 <li class="list-group-item">
                                     <div class="row-item">
                                         <div class="row-item__basic">
-                                            <span>{{ $car->name }} {{ $car->plate }}
+                                            <span><b>Brand:</b> {{ $car->name }} <b>Plate:</b> {{ $car->plate }}
                                             </span>
                                             <small>
                                                 {{ $car->getMaker->name }}
