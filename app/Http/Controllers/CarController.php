@@ -6,6 +6,7 @@ use App\Models\Car;
 use App\Models\Maker;
 use App\Http\Requests\StoreCarRequest;
 use App\Http\Requests\UpdateCarRequest;
+use Illuminate\Http\Request;
 
 class CarController extends Controller
 {
@@ -14,10 +15,60 @@ class CarController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $cars = Car::orderBy('name')->get();
-        return view('car.index', ['cars' => $cars]);
+        
+
+        $makers = Maker::all();
+
+        if ($request->sort) {
+            if ('name' == $request->sort && 'asc' == $request->sort_dir) {
+                $cars = Car::orderBy('name')->get();
+            }
+            else if ('name' == $request->sort && 'desc' == $request->sort_dir) {
+                $cars = Car::orderBy('name', 'desc')->get();
+            }
+            elseif ('plate' == $request->sort && 'asc' == $request->sort_dir) {
+                $cars = Car::orderBy('plate')->get();
+            }
+            else if ('plate' == $request->sort && 'desc' == $request->sort_dir) {
+                $cars = Car::orderBy('plate', 'desc')->get();
+            }
+            else {
+                $cars = Car::all();  
+            }
+        }
+        else if ($request->filter && 'maker' == $request->filter) {
+            $cars = Car::where('maker_id', $request->maker_id)->get();
+        }
+        else if ($request->search && 'all' == $request->search) {
+
+            $words = explode(' ', $request->s);
+            if (count($words) == 1) {
+            $cars = Car::where('name', 'like', '%'.$request->s.'%')
+            ->orWhere('plate', 'like', '%'.$request->s.'%')->get();
+            } else {
+                $cars = Car::where(function($query) use ($words) {
+                    $query->where('name', 'like', '%'.$words[0].'%')
+                    ->orWhere('plate', 'like', '%'.$words[0].'%');
+                    })
+                ->where(function($query) use ($words) {
+                $query->where('name', 'like', '%'.$words[1].'%')
+                ->orWhere('plate', 'like', '%'.$words[1].'%');
+                })->get();
+            }
+        }
+        else {
+            $cars = Car::all(); 
+        }
+    
+        return view('car.index', [
+            'cars' => $cars,
+            'sortDirection' => $request->sort_dir ?? 'asc',
+            'makers' => $makers,
+            'makerId' => $request->maker_id ?? '0',
+            's' => $request->s ?? ''
+        ]);
 
     }
 
