@@ -8,6 +8,8 @@ use App\Http\Requests\UpdateMakerRequest;
 
 class MakerController extends Controller
 {
+    const PAGE_COUNT = 5;
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +17,7 @@ class MakerController extends Controller
      */
     public function index()
     {
-        $makers = Maker::orderBy('name')->get();
+        $makers = Maker::orderBy('name')->paginate(self::PAGE_COUNT)->withQueryString();
         return view('maker.index', ['makers' => $makers]);
 
     }

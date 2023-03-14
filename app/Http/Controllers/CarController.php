@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 
 class CarController extends Controller
 {
+    const PAGE_COUNT = 10;
+
     /**
      * Display a listing of the resource.
      *
@@ -19,34 +21,34 @@ class CarController extends Controller
     {
         
 
-        $makers = Maker::all();
+        $makers = Maker::paginate(self::PAGE_COUNT)->withQueryString();
 
         if ($request->sort) {
             if ('name' == $request->sort && 'asc' == $request->sort_dir) {
-                $cars = Car::orderBy('name')->get();
+                $cars = Car::orderBy('name')->paginate(self::PAGE_COUNT)->withQueryString();
             }
             else if ('name' == $request->sort && 'desc' == $request->sort_dir) {
-                $cars = Car::orderBy('name', 'desc')->get();
+                $cars = Car::orderBy('name', 'desc')->paginate(self::PAGE_COUNT)->withQueryString();
             }
             elseif ('plate' == $request->sort && 'asc' == $request->sort_dir) {
-                $cars = Car::orderBy('plate')->get();
+                $cars = Car::orderBy('plate')->paginate(self::PAGE_COUNT)->withQueryString();
             }
             else if ('plate' == $request->sort && 'desc' == $request->sort_dir) {
-                $cars = Car::orderBy('plate', 'desc')->get();
+                $cars = Car::orderBy('plate', 'desc')->paginate(self::PAGE_COUNT)->withQueryString();
             }
             else {
-                $cars = Car::all();  
+                $cars = Car::paginate(self::PAGE_COUNT)->withQueryString();  
             }
         }
         else if ($request->filter && 'maker' == $request->filter) {
-            $cars = Car::where('maker_id', $request->maker_id)->get();
+            $cars = Car::where('maker_id', $request->maker_id)->paginate(self::PAGE_COUNT)->withQueryString();
         }
         else if ($request->search && 'all' == $request->search) {
 
             $words = explode(' ', $request->s);
             if (count($words) == 1) {
             $cars = Car::where('name', 'like', '%'.$request->s.'%')
-            ->orWhere('plate', 'like', '%'.$request->s.'%')->get();
+            ->orWhere('plate', 'like', '%'.$request->s.'%')->paginate(self::PAGE_COUNT)->withQueryString();
             } else {
                 $cars = Car::where(function($query) use ($words) {
                     $query->where('name', 'like', '%'.$words[0].'%')
@@ -55,11 +57,11 @@ class CarController extends Controller
                 ->where(function($query) use ($words) {
                 $query->where('name', 'like', '%'.$words[1].'%')
                 ->orWhere('plate', 'like', '%'.$words[1].'%');
-                })->get();
+                })->paginate(self::PAGE_COUNT)->withQueryString();
             }
         }
         else {
-            $cars = Car::all(); 
+            $cars = Car::paginate(self::PAGE_COUNT)->withQueryString(); 
         }
     
         return view('car.index', [
@@ -79,7 +81,7 @@ class CarController extends Controller
      */
     public function create()
     {
-        $makers = Maker::orderBy('name')->get();
+        $makers = Maker::orderBy('name')->paginate(self::PAGE_COUNT)->withQueryString();
         return view('car.create', ['makers' => $makers]);
         
     }
@@ -120,7 +122,7 @@ class CarController extends Controller
      */
     public function edit(Car $car)
     {
-        $makers = Maker::orderBy('name')->get();
+        $makers = Maker::orderBy('name')->paginate(self::PAGE_COUNT)->withQueryString();
         return view('car.edit', compact('car'), ['makers' => $makers]);
         
     }

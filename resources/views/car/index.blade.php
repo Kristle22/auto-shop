@@ -73,6 +73,10 @@
                         </form>
                     </div>
                     <div class="card-body">
+                        <div class="m-3">
+                            {{ $cars->links() }}
+                        </div>
+
                         <ul class="list-group">
                             @foreach ($cars as $car)
                                 <li class="list-group-item">
@@ -98,6 +102,9 @@
                                 </li>
                             @endforeach
                         </ul>
+                        <div class="m-3">
+                            {{ $cars->links() }}
+                        </div>
 
                     </div>
                 </div>
