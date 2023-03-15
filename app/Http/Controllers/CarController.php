@@ -7,6 +7,7 @@ use App\Models\Maker;
 use App\Http\Requests\StoreCarRequest;
 use App\Http\Requests\UpdateCarRequest;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class CarController extends Controller
 {
@@ -111,7 +112,9 @@ class CarController extends Controller
      */
     public function show(Car $car)
     {
-        //
+        
+        return view('car.show', compact('car'));
+
     }
 
     /**
@@ -157,4 +160,10 @@ class CarController extends Controller
     return redirect()->route('car.index')->with('success_message', 'Automobilis sekmingai ištrintas.');
 
     }
+
+    public function pdf(Car $car) {
+        $pdf = Pdf::loadView('car.pdf', compact('car'));
+        return $pdf->download(ucfirst($car->name).'-'.$car->getMaker->name.'.pdf');
+    }
+
 }

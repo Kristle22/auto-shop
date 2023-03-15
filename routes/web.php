@@ -38,6 +38,8 @@ Route::group(['prefix' => 'makers'], function(){
     Route::post('update/{car}', [CarController::class, 'update'])->name('car.update');
     Route::post('delete/{car}', [CarController::class, 'destroy'])->name('car.destroy');
     Route::get('show/{car}', [CarController::class, 'show'])->name('car.show');
+
+    Route::get('pdf/{car}', [CarController::class, 'pdf'])->name('car.pdf');
  });
  
  

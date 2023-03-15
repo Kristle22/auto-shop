@@ -93,6 +93,7 @@
                                         </div>
                                         <div class="row-item__btns">
                                             <a href="{{ route('car.edit', $car) }}" class="btn btn-info">Edit</a>
+                                            <a href="{{ route('car.show', $car) }}" class="btn btn-warning">Show</a>
                                             <form method="POST" action="{{ route('car.destroy', $car) }}">
                                                 <button type="submit" class="btn btn-danger">Delete</button>
                                                 @csrf
