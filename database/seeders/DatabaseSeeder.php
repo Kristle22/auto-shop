@@ -34,12 +34,14 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
+        $imgStorage = 'http://localhost/auto-shop/public/car-images/';
+
         foreach(range(1, 200) as $_) {
             DB::table('cars')->insert([
                 'name' => $faker->vehicleBrand,
                 'plate' => $faker->vehicleRegistration,
                 'about' => $faker->realText(rand(50, 100)),
-                'photo' => rand(0, 3) ? $faker->imageUrl(300, 200, ['cars'], false) : null, 
+                'photo' => rand(0, 3) ? $imgStorage.$faker->image($dir=public_path().'/car-images', 300, 200, ['cars'], false) : null, 
                 'maker_id' => rand(1, $makCount)
             ]);
         }
