@@ -8,7 +8,7 @@
                     <div class="card-header">New Car</div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ route('car.store') }}">
+                        <form method="POST" action="{{ route('car.store') }}" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label>Name</label>
                                 <input type="text" class="form-control" name="car_name" value="{{ old('car_name') }}">
@@ -23,6 +23,11 @@
                                 <label>About</label>
                                 <textarea class="form-control" name="car_about">{{ old('car_about') }}</textarea>
                                 <small class="form-text text-muted">About the car.</small>
+                            </div>
+                            <div class="form-group">
+                                <label>Photo</label>
+                                <input type="file" class="form-control" name="car_photo">
+                                <small class="form-text text-muted">Car image.</small>
                             </div>
                             <div class="form-group">
                                 <label>Maker</label>

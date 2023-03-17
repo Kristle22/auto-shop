@@ -81,6 +81,14 @@
                             @foreach ($cars as $car)
                                 <li class="list-group-item">
                                     <div class="row-item">
+                                        <div class="row-item__img">
+                                            @if ($car->photo)
+                                                <img src="{{ $car->photo }}" alt="{{ $car->name }}">
+                                            @else
+                                                <img src="{{ asset('img/no-img.png') }}" alt="{{ $car->name }}">
+                                            @endif
+                                        </div>
+
                                         <div class="row-item__basic">
                                             <span><b>Brand:</b> {{ $car->name }} <b>Plate:</b> {{ $car->plate }}
                                             </span>

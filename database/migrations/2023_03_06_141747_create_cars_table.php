@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('plate');
             $table->text('about');
+            $table->string('photo', 200)->nullable(); 
             $table->unsignedBigInteger('maker_id');
             $table->foreign('maker_id')->references('id')->on('makers');
             $table->timestamps();

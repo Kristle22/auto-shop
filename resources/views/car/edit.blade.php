@@ -8,7 +8,7 @@
                     <div class="card-header">Car edit</div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ route('car.update', $car) }}">
+                        <form method="POST" action="{{ route('car.update', $car) }}" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label>Name</label>
                                 <input type="text" class="form-control" name="car_name"
@@ -25,6 +25,23 @@
                                 <label>About</label>
                                 <textarea class="form-control" name="car_about">{{ old('car_about', $car->about) }}</textarea>
                                 <small class="form-text text-muted">About the car.</small>
+                            </div>
+                            <div class="form-group">
+                                <label>Photo</label>
+                                <div class="img mb-2">
+                                    @if ($car->photo)
+                                        <img src="{{ $car->photo }}" alt="{{ $car->name }}">
+                                    @else
+                                        <img src="{{ asset('img/no-img.png') }}" alt="{{ $car->name }}">
+                                    @endif
+                                </div>
+                                <div class="mb-2">
+                                    <input type="checkbox" class="form-check-input me-1" name="car_photo_deleted"
+                                        id="df">
+                                    <label for="df">Delete photo</label>
+                                </div>
+                                <input type="file" class="form-control" name="car_photo">
+                                <small class="form-text text-muted">Car image.</small>
                             </div>
                             <div class="form-group">
                                 <label>Maker</label>

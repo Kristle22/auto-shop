@@ -62,7 +62,7 @@ class CarController extends Controller
             }
         }
         else {
-            $cars = Car::paginate(self::PAGE_COUNT)->withQueryString(); 
+            $cars = Car::orderBy('created_at', 'desc')->paginate(self::PAGE_COUNT)->withQueryString(); 
         }
     
         return view('car.index', [
@@ -96,6 +96,25 @@ class CarController extends Controller
     public function store(StoreCarRequest $request)
     {
         $car = new Car;
+
+        
+
+        $file = $request->file('car_photo');
+        if ($file) {
+            $ext = $file->getClientOriginalExtension();
+            $name = rand(1000000, 9999999).'_'.rand(1000000, 9999999);
+            $name .= '.'.$ext;
+
+            $destinationPath = public_path().'/car-images/';
+            $file->move($destinationPath, $name);
+            $car->photo = asset('/car-images/'.$name);
+            
+            // image intervention (composer require intervention/image)
+            // $img = Image::make($destinationPath.$name);
+            // $img->gamma(5.6)->flip('v');
+            // $img->save($destinationPath.$name);
+        }
+
         $car->name = $request->car_name;
         $car->plate = $request->car_plate;
         $car->about = $request->car_about;
@@ -139,6 +158,37 @@ class CarController extends Controller
      */
     public function update(UpdateCarRequest $request, Car $car)
     {
+        $file = $request->file('car_photo');
+
+        if ($file) {
+            $ext = $file->getClientOriginalExtension();
+            $name = rand(1000000, 9999999).'_'.rand(1000000, 9999999);
+            $name .= '.'.$ext;
+            $destinationPath = public_path().'/car-images/';
+
+            $file->move($destinationPath, $name);
+
+            $oldPhoto = $car->photo ?? '@@@';
+            $car->photo = asset('/car-images/'.$name);
+
+            // Trinam sena, jeigu ji yra
+            $oldName = explode('/', $oldPhoto);
+            $oldName = array_pop($oldName);
+            if (file_exists($destinationPath.$oldName)) {
+                unlink($destinationPath.$oldName);
+            }
+        }
+        if ($request->car_photo_deleted) {
+            $destinationPath = public_path().'/car-images/';
+            $oldPhoto = $car->photo ?? '@@@';
+            $car->photo = null;
+            $oldName = explode('/', $oldPhoto);
+            $oldName = array_pop($oldName);
+            if (file_exists($destinationPath.$oldName)) {
+                unlink($destinationPath.$oldName);
+            }
+        }
+
         $car->name = $request->car_name;
         $car->plate = $request->car_plate;
         $car->about = $request->car_about;
@@ -155,7 +205,16 @@ class CarController extends Controller
      */
     public function destroy(Car $car)
     {
-       
+        $destinationPath = public_path().'/car-images/';
+        $oldPhoto = $car->photo ?? '@@@';
+
+        // Trinam sena, jeigu ji yra
+        $oldName = explode('/', $oldPhoto);
+        $oldName = array_pop($oldName);
+        if (file_exists($destinationPath.$oldName)) {
+            unlink($destinationPath.$oldName);
+         }
+
     $car->delete();
     return redirect()->route('car.index')->with('success_message', 'Automobilis sekmingai ištrintas.');
 

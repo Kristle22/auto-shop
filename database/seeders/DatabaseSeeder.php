@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
     {
         $faker = Faker::create('en_EN');
         $faker->addProvider(new \Faker\Provider\Fakecar($faker));
+        $faker->addProvider(new \Xvladqt\Faker\LoremFlickrProvider($faker));
 
         DB::table('users')->insert([
             'name' => 'Kristina',
@@ -38,6 +39,7 @@ class DatabaseSeeder extends Seeder
                 'name' => $faker->vehicleBrand,
                 'plate' => $faker->vehicleRegistration,
                 'about' => $faker->realText(rand(50, 100)),
+                'photo' => rand(0, 3) ? $faker->imageUrl(300, 200, ['cars'], false) : null, 
                 'maker_id' => rand(1, $makCount)
             ]);
         }
