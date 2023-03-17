@@ -37,6 +37,19 @@
             color: gray;
         }
 
+        .img img {
+            height: 200px;
+            width: auto;
+        }
+
+        .img .no-img {
+            border: 1px solid #5b97e0;
+            font-size: 30px;
+            margin: 10px;
+            padding: 10px;
+
+        }
+
         .color {
             width: 120px;
             height: 120px;
@@ -54,6 +67,13 @@
 <body>
     <h1>{{ $car->name }}</h1>
     <div class="master">Maker: {{ $car->getMaker->name }}</div>
+    <div class="img">
+        @if ($car->photo)
+            <img src="{{ $car->photo }}" alt="{{ $car->name }}">
+        @else
+            <p>Image of <b>{{ $car->name }}</b> not found or type unknown.</p>
+        @endif
+    </div>
     <div class="size">Plate: <b>{{ $car->plate }}</b></div>
     <div class="about">{!! $car->about !!}</div>
 </body>

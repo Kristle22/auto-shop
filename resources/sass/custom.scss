@@ -43,6 +43,7 @@
     align-items: center;
     gap: 20px;
     &__img {
+        max-width: 340px;
         img {
             height: 200px;
             width: auto;
@@ -81,6 +82,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
     &__img {
         img {
             height: 200px;

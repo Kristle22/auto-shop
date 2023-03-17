@@ -9,6 +9,13 @@
                     </div>
                     <div class="card-body">
                         <div class="item-container">
+                            <div class="item-container__img">
+                                @if ($car->photo)
+                                    <img src="{{ $car->photo }}" alt="{{ $car->name }}">
+                                @else
+                                    <img src="{{ asset('img/no-img.png') }}" alt="{{ $car->name }}">
+                                @endif
+                            </div>
                             <div class="item-container__basic">
                                 <p> <b> {{ $car->name }}</b>
                                 <p>
