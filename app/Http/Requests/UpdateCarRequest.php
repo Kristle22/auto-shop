@@ -28,7 +28,8 @@ class UpdateCarRequest extends FormRequest
             'car_name' => ['required', 'min:3', 'max:255'],
             'car_plate' => ['required', 'min:3', 'max:10'],
             'car_about' => ['required'],
-            'maker_id' => ['required', 'integer', 'min:1']
+            'maker_id' => ['required', 'integer', 'min:1'],
+            'car_photo' => ['sometimes', 'image']
         ];
     }
 

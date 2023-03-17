@@ -42,12 +42,20 @@
             width: auto;
         }
 
-        .img .no-img {
-            border: 1px solid #5b97e0;
-            font-size: 30px;
+        .img p {
+            width: 50%;
+            border: 1px solid #da5555;
+            font-size: 22px;
+            font-style: italic;
+            color: gray;
             margin: 10px;
             padding: 10px;
 
+        }
+
+        .img span {
+            font-weight: bold;
+            text-decoration: underline;
         }
 
         .color {
@@ -68,10 +76,10 @@
     <h1>{{ $car->name }}</h1>
     <div class="master">Maker: {{ $car->getMaker->name }}</div>
     <div class="img">
-        @if ($car->photo)
+        @if (!image_type_to_mime_type(exif_imagetype($car->photo)))
             <img src="{{ $car->photo }}" alt="{{ $car->name }}">
         @else
-            <p>Image of <b>{{ $car->name }}</b> not found or type unknown.</p>
+            <p>Image of <span>{{ $car->name }}</span> not found or type unknown.</p>
         @endif
     </div>
     <div class="size">Plate: <b>{{ $car->plate }}</b></div>
