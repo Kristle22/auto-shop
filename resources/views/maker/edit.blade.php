@@ -18,7 +18,6 @@
                             @csrf
                             <button type="submit" class="btn btn-info">Update maker</button>
                         </form>
-
                     </div>
                 </div>
             </div>

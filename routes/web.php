@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MakerController;
+use App\Http\Controllers\MakerJsController;
 use App\Http\Controllers\CarController;
 
 
@@ -42,7 +43,16 @@ Route::group(['prefix' => 'makers'], function(){
     Route::get('pdf/{car}', [CarController::class, 'pdf'])->name('car.pdf');
  });
  
- 
+ Route::group(['prefix' => 'makers-js'], function(){
+    Route::get('', [MakerJsController::class, 'index'])->name('maker-js.index');
+    Route::get('list', [MakerJsController::class, 'list'])->name('maker-js.list');
+    Route::get('create', [MakerJsController::class, 'create'])->name('maker-js.create');
+    Route::post('store', [MakerJsController::class, 'store'])->name('maker-js.store');
+    Route::get('edit/{maker}', [MakerJsController::class, 'edit'])->name('maker-js.edit');
+    Route::post('update/{maker}', [MakerJsController::class, 'update'])->name('maker-js.update');
+    Route::post('delete/{maker}', [MakerJsController::class, 'destroy'])->name('maker-js.destroy');
+ });
+
 
 Auth::routes(['register' => false]);
 

@@ -16,7 +16,6 @@
                             @csrf
                             <button type="submit" class="btn btn-primary">Add new</button>
                         </form>
-
                     </div>
                 </div>
             </div>
